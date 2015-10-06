@@ -14,6 +14,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.x13n.giphiltefish.R;
+import com.x13n.giphiltefish.helpers.StubHelper;
 import com.x13n.giphiltefish.models.RecyclerItemListener;
 import com.x13n.giphiltefish.net.NetworkManager;
 import com.x13n.giphiltefish.net.giphy.SearchRequest;
@@ -80,8 +81,16 @@ public class SearchFragment extends Fragment implements RecyclerItemListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // TODO: Handle errors.
                 Log.e(TAG, "Unhandled error! " + error);
+                StubHelper.showYouBrokeItDialog(
+                        "Couldn't load search results. Are you connected to the internet?",
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                loadRecent();
+                            }
+                        },
+                        getActivity());
             }
         });
 
@@ -98,8 +107,16 @@ public class SearchFragment extends Fragment implements RecyclerItemListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // TODO: Handle errors.
                 Log.e(TAG, "Unhandled error! " + error);
+                StubHelper.showYouBrokeItDialog(
+                        "Couldn't load search results. Are you connected to the internet?",
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                loadSearchResults(searchTerm);
+                            }
+                        },
+                        getActivity());
             }
         });
 
