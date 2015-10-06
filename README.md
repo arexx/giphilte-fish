@@ -16,3 +16,5 @@ A giphy client written for a coding challenge. But also maybe fun to use.
 - There's very little error handling. If there's any kind of network or JSON issue you'll just get a complainy dialog. When images don't load, you just see blank tiles.
 - Images are not preloaded in advance of becoming visible on the screen, so the app is a lot more fun to use on a very fast internet connection.
 - Only one page of results (up to 25) are ever loaded for any given query. No infinite scroll here. (Yet?)
+- Would prefer to have more docstrings in a production project.
+- No tests. http://giphy.com/search/deal-with-it
