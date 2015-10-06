@@ -6,6 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.x13n.giphiltefish.net.giphy.model.GiphyImage;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Provides views for the search fragment RecyclerView.
  *
@@ -13,7 +18,15 @@ import android.widget.TextView;
  */
 public class SearchAdapter extends android.support.v7.widget.RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
-    private final String[] mDataset;
+    private final List<GiphyImage> mModel;
+
+    /**
+     * Given a list of new images fetched from the server, append them to the list.
+     */
+    public void addImages(List<GiphyImage> images) {
+        mModel.addAll(images);
+        notifyItemRangeInserted(mModel.size() - images.size(), images.size());
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mTextView;
@@ -24,33 +37,7 @@ public class SearchAdapter extends android.support.v7.widget.RecyclerView.Adapte
     }
 
     public SearchAdapter() {
-        mDataset = new String[]{
-            "http://media2.giphy.com/media/AT2Q1Qve3Unde/200w.gif",
-            "http://media0.giphy.com/media/3o85xJvFMYJzsOZOWQ/200w.gif",
-            "http://media0.giphy.com/media/13r6ty71MGoBfG/200w.gif",
-            "http://media0.giphy.com/media/GjonBzjN5b0Zy/200w.gif",
-            "http://media0.giphy.com/media/M6dF0cbS41Pck/200w.gif",
-            "http://media4.giphy.com/media/4eCb65QoBQfaE/200w.gif",
-            "http://media3.giphy.com/media/qabALTpoZZmoM/200w.gif",
-            "http://media3.giphy.com/media/ZIpgsdc67pYzK/200w.gif",
-            "http://media2.giphy.com/media/143OOSsuEtK5NK/200w.gif",
-            "http://media2.giphy.com/media/J1x49f9CiAmI0/200w.gif",
-            "http://media0.giphy.com/media/gVAT5G1IoF3Jm/200w.gif",
-            "http://media0.giphy.com/media/2niGkPmJL3NFm/200w.gif",
-            "http://media3.giphy.com/media/Ph2EUpM4KAmAM/200w.gif",
-            "http://media2.giphy.com/media/Rex1YbGuXCvYY/200w.gif",
-            "http://media4.giphy.com/media/AisrIocRKt8iI/200w.gif",
-            "http://media1.giphy.com/media/rZhB85CCeHdgA/200w.gif",
-            "http://media2.giphy.com/media/lH222o7HcuCC4/200w.gif",
-            "http://media1.giphy.com/media/kEbw8vXGwCQqk/200w.gif",
-            "http://media4.giphy.com/media/n2paxU5JLX8Sk/200w.gif",
-            "http://media0.giphy.com/media/Qh6NZWsFx1G1O/200w.gif",
-            "http://media2.giphy.com/media/no2JeUjkz6EBG/200w.gif",
-            "http://media4.giphy.com/media/tolFEWW90XwoE/200w.gif",
-            "http://media2.giphy.com/media/13Jyycjoo101uE/200w.gif",
-            "http://media0.giphy.com/media/upztYklL3VhNm/200w.gif",
-            "http://media4.giphy.com/media/a2SR6Ag8ChUlO/200w.gif"
-        };
+        mModel = new ArrayList<>();
     }
 
     @Override
@@ -61,12 +48,14 @@ public class SearchAdapter extends android.support.v7.widget.RecyclerView.Adapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mTextView.setText(mDataset[position]);
+        holder.mTextView.setText("URL: " + mModel.get(position).getUrl());
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mModel.size();
     }
+
+
 
 }
