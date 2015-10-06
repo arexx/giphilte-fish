@@ -34,10 +34,22 @@ public class SearchFragment extends Fragment implements RecyclerItemListener {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private SearchAdapter mAdapter;
+    private OnImageSelectedListener mCallback;
+
+    public interface OnImageSelectedListener {
+        void onImageSelected(GiphyImage image);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        try {
+            mCallback = (OnImageSelectedListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString() + " must implement OnImageSelectedListener");
+        }
+
         // Start loading recent GIFs from the server.
         loadRecent();
     }
@@ -107,5 +119,6 @@ public class SearchFragment extends Fragment implements RecyclerItemListener {
     @Override
     public void onImageTouched(GiphyImage image) {
         Log.i(TAG, "Image touched: " + image.getUrl());
+        mCallback.onImageSelected(image);
     }
 }
