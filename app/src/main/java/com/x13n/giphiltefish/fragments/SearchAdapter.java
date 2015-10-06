@@ -1,10 +1,11 @@
-package com.x13n.giphiltefish;
+package com.x13n.giphiltefish.fragments;
 
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.x13n.giphiltefish.R;
 import com.x13n.giphiltefish.models.GiphyImageItem;
 import com.x13n.giphiltefish.models.HeaderItem;
 import com.x13n.giphiltefish.models.RecyclerItem;

@@ -1,4 +1,4 @@
-package com.x13n.giphiltefish;
+package com.x13n.giphiltefish.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.x13n.giphiltefish.R;
 import com.x13n.giphiltefish.models.RecyclerItemListener;
 import com.x13n.giphiltefish.net.NetworkManager;
 import com.x13n.giphiltefish.net.giphy.SearchRequest;

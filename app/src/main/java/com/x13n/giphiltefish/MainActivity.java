@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 
+import com.x13n.giphiltefish.fragments.SearchFragment;
+
 public class MainActivity extends Activity {
     private static final String TAG = "SearchActivity";
 
