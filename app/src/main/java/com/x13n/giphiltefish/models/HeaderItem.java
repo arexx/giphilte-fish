@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.x13n.giphiltefish.R;
 
 /**
+ * Logo and search bar
+ *
  * Created by alex on 06/10/15.
  */
 public class HeaderItem extends RecyclerItem {
