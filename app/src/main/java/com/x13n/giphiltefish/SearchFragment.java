@@ -33,7 +33,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        // Start loading recent GIFs from the server.
         loadRecent();
     }
 
