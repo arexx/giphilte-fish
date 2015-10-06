@@ -64,7 +64,7 @@ public class SearchFragment extends Fragment {
                 }
 
                 // TODO: Verify that view has been created.
-                mAdapter.addImages(response.getImages());
+                mAdapter.showResults("Trending", response.getImages());
             }
         }, new Response.ErrorListener() {
             @Override

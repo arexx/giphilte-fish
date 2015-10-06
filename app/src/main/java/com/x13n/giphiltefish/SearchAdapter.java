@@ -1,12 +1,13 @@
 package com.x13n.giphiltefish;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.x13n.giphiltefish.models.GiphyImageItem;
+import com.x13n.giphiltefish.models.RecyclerItem;
+import com.x13n.giphiltefish.models.SectionTitleItem;
 import com.x13n.giphiltefish.net.giphy.model.GiphyImage;
-import com.x13n.giphiltefish.views.GiphyDraweeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,24 +17,28 @@ import java.util.List;
  *
  * Created by alex on 05/10/15.
  */
-public class SearchAdapter extends android.support.v7.widget.RecyclerView.Adapter<SearchAdapter.ViewHolder> {
+public class SearchAdapter extends android.support.v7.widget.RecyclerView.Adapter<RecyclerItem.ViewHolder> {
 
-    private final List<GiphyImage> mModel;
+    /**
+     * A list representing the items that the recycler view will render.
+     */
+    private final List<RecyclerItem> mModel;
 
     /**
      * Given a list of new images fetched from the server, append them to the list.
      */
-    public void addImages(List<GiphyImage> images) {
-        mModel.addAll(images);
-        notifyItemRangeInserted(mModel.size() - images.size(), images.size());
-    }
+    public void showResults(String title, List<GiphyImage> images) {
+        // Remove loading indicator or results if they exist.
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public GiphyDraweeView mDraweeView;
-        public ViewHolder(View v) {
-            super(v);
-            mDraweeView = (GiphyDraweeView) v.findViewById(R.id.gif);
+        mModel.add(new SectionTitleItem(title));
+
+        for (GiphyImage image : images) {
+            mModel.add(new GiphyImageItem(image));
         }
+
+        int newItemCount = images.size() + 1;
+
+        notifyItemRangeInserted(mModel.size() - newItemCount, newItemCount);
     }
 
     public SearchAdapter() {
@@ -41,22 +46,33 @@ public class SearchAdapter extends android.support.v7.widget.RecyclerView.Adapte
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_result, parent, false);
-        return new ViewHolder(view);
+    public RecyclerItem.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        // I'm using layout resource IDs for view type integers as suggested by the Google API docs,
+        // because the view type is a layout resource it can be passed straight to the inflater.
+        View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
+
+        if (viewType == R.layout.item_giphy_image) {
+            return new GiphyImageItem.ViewHolder(view);
+        } else if (viewType == R.layout.item_section_title) {
+            return new SectionTitleItem.ViewHolder(view);
+        }
+
+        throw new RuntimeException("Unknown view type in onCreateViewHolder: " + viewType);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        GiphyImage image = mModel.get(position);
-        holder.mDraweeView.setGiphyImage(image);
+    public void onBindViewHolder(RecyclerItem.ViewHolder holder, int position) {
+        RecyclerItem item = mModel.get(position);
+        holder.bind(item);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return mModel.get(position).getLayoutId();
     }
 
     @Override
     public int getItemCount() {
         return mModel.size();
     }
-
-
-
 }
