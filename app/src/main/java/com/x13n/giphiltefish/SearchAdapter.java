@@ -25,7 +25,7 @@ public class SearchAdapter extends android.support.v7.widget.RecyclerView.Adapte
     /**
      * A list representing the items that the recycler view will render.
      */
-    private final List<RecyclerItem> mModel;
+    private List<RecyclerItem> mModel;
 
     private RecyclerItemListener mRecyclerItemListener;
 
@@ -42,8 +42,14 @@ public class SearchAdapter extends android.support.v7.widget.RecyclerView.Adapte
      * Given a list of new images fetched from the server, append them to the list.
      */
     public void showResults(String title, List<GiphyImage> images) {
-        // Remove loading indicator or results if they exist.
+        // Remove everything except the first element.
+        int removeCount = mModel.size() - 1;
+        if (removeCount > 0) {
+            mModel = new ArrayList<>(mModel.subList(0, 1));
+            notifyItemRangeRemoved(1, removeCount);
+        }
 
+        // Add the new results.
         mModel.add(new SectionTitleItem(title));
 
         for (GiphyImage image : images) {

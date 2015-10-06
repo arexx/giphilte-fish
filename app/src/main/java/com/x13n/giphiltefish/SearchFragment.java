@@ -15,9 +15,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.x13n.giphiltefish.models.RecyclerItemListener;
 import com.x13n.giphiltefish.net.NetworkManager;
+import com.x13n.giphiltefish.net.giphy.SearchRequest;
 import com.x13n.giphiltefish.net.giphy.TrendingRequest;
 import com.x13n.giphiltefish.net.giphy.model.GiphyImage;
 import com.x13n.giphiltefish.net.giphy.model.GiphyResponse;
+
+import java.util.ArrayList;
 
 /**
  * An EditText for a search term, and a list of search results.
@@ -58,12 +61,6 @@ public class SearchFragment extends Fragment implements RecyclerItemListener {
         Request trendingRequest = new TrendingRequest(new Response.Listener<GiphyResponse>() {
             @Override
             public void onResponse(GiphyResponse response) {
-                Log.i(TAG, "Response: " + response);
-
-                for (GiphyImage image : response.getImages()) {
-                    Log.d(TAG, "Image: " + image.getUrl());
-                }
-
                 // TODO: Verify that view has been created.
                 mAdapter.showResults("Trending", response.getImages());
             }
@@ -78,9 +75,32 @@ public class SearchFragment extends Fragment implements RecyclerItemListener {
         NetworkManager.getInstance(getActivity()).addToRequestQueue(trendingRequest);
     }
 
+    private void loadSearchResults(final String searchTerm) {
+        Request searchRequest = new SearchRequest(searchTerm, new Response.Listener<GiphyResponse>() {
+            @Override
+            public void onResponse(GiphyResponse response) {
+                // TODO: Verify that view has been created.
+                mAdapter.showResults("Results for “" + searchTerm + "”", response.getImages());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO: Handle errors.
+                Log.e(TAG, "Unhandled error! " + error);
+            }
+        });
+
+        NetworkManager.getInstance(getActivity()).addToRequestQueue(searchRequest);
+    }
+
     @Override
     public void onSearchTermEntered(String searchTerm) {
         Log.i(TAG, "Search term entered: " + searchTerm);
+
+        // Clear the currently visible results.
+        mAdapter.showResults("Searching...", new ArrayList<GiphyImage>());
+
+        loadSearchResults(searchTerm);
     }
 
     @Override
