@@ -32,8 +32,6 @@ import java.util.ArrayList;
 public class SearchFragment extends Fragment implements RecyclerItemListener {
     private static final String TAG = "SearchFragment";
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
     private SearchAdapter mAdapter;
     private OnImageSelectedListener mCallback;
 
@@ -51,6 +49,8 @@ public class SearchFragment extends Fragment implements RecyclerItemListener {
             throw new ClassCastException(getActivity().toString() + " must implement OnImageSelectedListener");
         }
 
+        mAdapter = new SearchAdapter(this);
+
         // Start loading recent GIFs from the server.
         loadRecent();
     }
@@ -60,13 +60,11 @@ public class SearchFragment extends Fragment implements RecyclerItemListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_search, container, false);
 
-        mRecyclerView = (RecyclerView) layout;
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
 
-        mLayoutManager = new LinearLayoutManager(this.getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mAdapter = new SearchAdapter(this);
-        mRecyclerView.setAdapter(mAdapter);
+        RecyclerView recyclerView = (RecyclerView) layout;
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(mAdapter);
 
         return layout;
     }
@@ -75,7 +73,6 @@ public class SearchFragment extends Fragment implements RecyclerItemListener {
         Request trendingRequest = new TrendingRequest(new Response.Listener<GiphyResponse>() {
             @Override
             public void onResponse(GiphyResponse response) {
-                // TODO: Verify that view has been created.
                 mAdapter.showResults("Trending", response.getImages());
             }
         }, new Response.ErrorListener() {
@@ -101,7 +98,6 @@ public class SearchFragment extends Fragment implements RecyclerItemListener {
         Request searchRequest = new SearchRequest(searchTerm, new Response.Listener<GiphyResponse>() {
             @Override
             public void onResponse(GiphyResponse response) {
-                // TODO: Verify that view has been created.
                 mAdapter.showResults("Results for “" + searchTerm + "”", response.getImages());
             }
         }, new Response.ErrorListener() {
