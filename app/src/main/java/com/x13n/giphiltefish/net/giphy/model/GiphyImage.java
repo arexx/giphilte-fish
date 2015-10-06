@@ -19,6 +19,7 @@ import java.util.Map;
  */
 public class GiphyImage implements Parcelable {
     Map<String, ImageVariation> images;
+    String bitly_gif_url;
 
     public GiphyImage() {
         // Empty constructor required because otherwise the Parcelable constructor
@@ -29,6 +30,16 @@ public class GiphyImage implements Parcelable {
         return images.get("fixed_width");
     }
 
+    /**
+     * @return a URL for the web page the gif is hosted on, suitable for sharing.
+     */
+    public String getShareUrl() {
+        return bitly_gif_url;
+    }
+
+    /**
+     * @return a URL that can be used to load the image for display in the app.
+     */
     public String getUrl() {
         return getPreferredVariation().webp;
     }
@@ -59,6 +70,7 @@ public class GiphyImage implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
+        out.writeString(bitly_gif_url);
         out.writeString(getUrl());
         out.writeInt(getWidth());
         out.writeInt(getHeight());
@@ -66,6 +78,7 @@ public class GiphyImage implements Parcelable {
 
     private GiphyImage(Parcel in) {
         ImageVariation variation = new ImageVariation();
+        bitly_gif_url = in.readString();
         variation.webp = in.readString();
         variation.width = in.readInt();
         variation.height = in.readInt();
