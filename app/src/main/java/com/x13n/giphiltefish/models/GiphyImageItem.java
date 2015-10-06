@@ -19,16 +19,25 @@ public class GiphyImageItem extends RecyclerItem {
 
     public static class ViewHolder extends RecyclerItem.ViewHolder {
         private GiphyDraweeView mDraweeView;
+        private RecyclerItemListener mRecyclerItemListener;
 
         public ViewHolder(View v) {
             super(v);
             mDraweeView = (GiphyDraweeView) v.findViewById(R.id.gif);
+            mDraweeView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mRecyclerItemListener.onImageTouched(mDraweeView.getGiphyImage());
+                }
+            });
         }
 
         @Override
-        public void bind(RecyclerItem item) {
-            GiphyImageItem imageItem = (GiphyImageItem)item;
+        public void bind(RecyclerItem item, RecyclerItemListener recyclerItemListener) {
+            mRecyclerItemListener = recyclerItemListener;
+            final GiphyImageItem imageItem = (GiphyImageItem)item;
             mDraweeView.setGiphyImage(imageItem.getImage());
+
         }
     }
 

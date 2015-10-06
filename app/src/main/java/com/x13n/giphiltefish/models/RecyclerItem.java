@@ -21,7 +21,7 @@ public abstract class RecyclerItem {
             super(itemView);
         }
 
-        public void bind(RecyclerItem item) {
+        public void bind(RecyclerItem item, RecyclerItemListener recyclerItemListener) {
             throw new RuntimeException("ViewHolder has no bind implementation");
         }
     }

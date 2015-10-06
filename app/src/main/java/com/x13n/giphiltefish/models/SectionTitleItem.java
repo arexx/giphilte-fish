@@ -25,7 +25,7 @@ public class SectionTitleItem extends RecyclerItem {
         }
 
         @Override
-        public void bind(RecyclerItem item) {
+        public void bind(RecyclerItem item, RecyclerItemListener recyclerItemListener) {
             SectionTitleItem titleItem = (SectionTitleItem)item;
             mTextView.setText(titleItem.getTitle());
         }

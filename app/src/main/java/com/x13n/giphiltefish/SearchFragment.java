@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.x13n.giphiltefish.models.RecyclerItemListener;
 import com.x13n.giphiltefish.net.NetworkManager;
 import com.x13n.giphiltefish.net.giphy.TrendingRequest;
 import com.x13n.giphiltefish.net.giphy.model.GiphyImage;
@@ -23,7 +24,7 @@ import com.x13n.giphiltefish.net.giphy.model.GiphyResponse;
  *
  * Created by alex on 05/10/15.
  */
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements RecyclerItemListener {
     private static final String TAG = "SearchFragment";
 
     private RecyclerView mRecyclerView;
@@ -47,7 +48,7 @@ public class SearchFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(this.getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new SearchAdapter();
+        mAdapter = new SearchAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
 
         return layout;
@@ -75,5 +76,15 @@ public class SearchFragment extends Fragment {
         });
 
         NetworkManager.getInstance(getActivity()).addToRequestQueue(trendingRequest);
+    }
+
+    @Override
+    public void onSearchTermEntered(String searchTerm) {
+        Log.i(TAG, "Search term entered: " + searchTerm);
+    }
+
+    @Override
+    public void onImageTouched(GiphyImage image) {
+        Log.i(TAG, "Image touched: " + image.getUrl());
     }
 }

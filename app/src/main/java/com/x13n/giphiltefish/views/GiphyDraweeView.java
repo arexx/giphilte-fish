@@ -36,6 +36,10 @@ public class GiphyDraweeView extends SimpleDraweeView {
         super(context, attrs, defStyle);
     }
 
+    public GiphyImage getGiphyImage() {
+        return mImage;
+    }
+
     public void setGiphyImage(GiphyImage image) {
         mImage = image;
         DraweeController controller = Fresco.newDraweeControllerBuilder()

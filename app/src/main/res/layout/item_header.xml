@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <android.support.v7.widget.CardView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        card_view:cardCornerRadius="3dp"
+        >
+        <EditText
+            android:id="@+id/search"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Search"
+            android:background="@android:color/transparent"
+            android:padding="10dp"
+            android:inputType="text"
+            android:imeOptions="actionSearch"
+            />
+    </android.support.v7.widget.CardView>
+</LinearLayout>
