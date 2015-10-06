@@ -16,7 +16,7 @@ public class GiphyImage {
     }
 
     public String getUrl() {
-        return getPreferredVariation().url;
+        return getPreferredVariation().webp;
     }
 
     public int getWidth() {

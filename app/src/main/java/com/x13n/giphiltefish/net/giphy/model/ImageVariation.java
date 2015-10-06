@@ -12,5 +12,10 @@ class ImageVariation {
     int width;
     int height;
     int size;
+
+    /** URL of GIF version of image */
     String url;
+
+    /** URL of WEBP version of image, which is smaller and Fresco totally supports it - yay! */
+    String webp;
 }

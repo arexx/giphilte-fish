@@ -1,11 +1,15 @@
 package com.x13n.giphiltefish;
 
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.x13n.giphiltefish.net.giphy.model.GiphyImage;
 
 import java.util.ArrayList;
@@ -30,9 +34,11 @@ public class SearchAdapter extends android.support.v7.widget.RecyclerView.Adapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mTextView;
+        public SimpleDraweeView mDraweeView;
         public ViewHolder(View v) {
             super(v);
             mTextView = (TextView) v.findViewById(R.id.text);
+            mDraweeView = (SimpleDraweeView) v.findViewById(R.id.gif);
         }
     }
 
@@ -48,7 +54,15 @@ public class SearchAdapter extends android.support.v7.widget.RecyclerView.Adapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mTextView.setText("URL: " + mModel.get(position).getUrl());
+        String imageUrl = mModel.get(position).getUrl();
+        holder.mTextView.setText("URL: " + imageUrl);
+
+        DraweeController controller = Fresco.newDraweeControllerBuilder()
+                .setUri(Uri.parse(imageUrl))
+                .setAutoPlayAnimations(true)
+                .build();
+
+        holder.mDraweeView.setController(controller);
     }
 
     @Override
