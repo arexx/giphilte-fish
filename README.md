@@ -2,6 +2,8 @@
 
 A giphy client written for a coding challenge. But also maybe fun to use.
 
+![GiphilteFish screenshots](http://x13n.com/alex/giphilte-fish.jpg)
+
 ## Installation
 
 - Clone repo
